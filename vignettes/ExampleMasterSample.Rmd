@@ -12,7 +12,7 @@ Load in the example NWT Lakes dataset. Subset it to the Daring Lake Sub Basin. N
 aggregated to Daring Lake in Sub Basin 2. The data has already been subset to > 1 km for float plane access and has all the
 cumulative effects layers as attributes.
 
-``{r include = TRUE, eval = FALSE}
+```r
 
 # Should have a couple of libraries to start:
 library(data.table)
@@ -35,7 +35,7 @@ Select Sites for each stratum using the NWT Freshwater Master Sample.
 ## High CE:
 Start with high cumulative effects. The CEV is the combined metric for natural, anthropogenic and vulnerability.
 
-``{r include = TRUE, eval = FALSE}
+```r
 P1.h <- c(1,0)		#Stratum Permuitation
 P2.h <- c(1,0,2)	#Stratum Permutation
 B.h <- 12	#Number of partitions
@@ -53,7 +53,7 @@ smp.high$Stratum <- "High"
 ## Medium CE:
 Now do it for Medium CE.
 
-``{r include = TRUE, eval = FALSE}
+```r
 P1.m <- c(0,1)		#Stratum Permuitation
 P2.m <-  c(2,1,0)	#Stratum Permutation
 B.m <- 12	#Number of partitions
@@ -72,7 +72,7 @@ smp.med$Stratum <- "Medium"
 ## Low CE:
 Now do it for Low CE.
 
-``{r include = TRUE, eval = FALSE}
+```r
 P1.l <- c(0,1)		#Stratum Permuitation
 P2.l <-  c(0, 1, 2)	#Stratum Permutation
 B.l <- 12	#Number of partitions
@@ -91,7 +91,7 @@ smp.low$Stratum <- "Low"
 # Visualization of the Sample:
 We can make a nice looking plot in leaflet to visualize what we've done. Then we'll export the sample as a shape file or a csv.
 
-```{r include = TRUE, eval = FALSE}
+```r
 
 pilot.pts <- rbind(smp.low, smp.med, smp.high)
 pts.wgs <- spTransform(pilot.pts, CRS("+proj=longlat"))

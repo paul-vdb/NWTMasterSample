@@ -1,0 +1,119 @@
+---
+title: "NWT Daring Lake Master Sample"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{NWT Daring Lake Master Sample}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+# Data Input:
+Load in the example NWT Lakes dataset. Subset it to the Daring Lake Sub Basin. Note that Area A is included in SubBasin and
+aggregated to Daring Lake in Sub Basin 2. The data has already been subset to > 1 km for float plane access and has all the
+cumulative effects layers as attributes.
+
+``{r include = TRUE, eval = FALSE}
+
+# Should have a couple of libraries to start:
+library(data.table)
+library(ggplot2)
+library(leaflet)
+library(sp)
+
+# Load the data from the package example:
+data(NWT_Lakes)
+daring.lks <- NWT_Lakes[SubBasin2 == "Daring"]
+
+# Make it into a shape file with the correct projection:
+pts.daring <- SpatialPointsDataFrame(SpatialPoints(cbind(daring.lks$easting, daring.lks$northing), 
+	proj4string = CRS("+init=epsg:26912")), data = daring.lks)
+```
+
+# Site Selection
+Select Sites for each stratum using the NWT Freshwater Master Sample.
+
+## High CE:
+Start with high cumulative effects. The CEV is the combined metric for natural, anthropogenic and vulnerability.
+
+``{r include = TRUE, eval = FALSE}
+P1.h <- c(1,0)		#Stratum Permuitation
+P2.h <- c(1,0,2)	#Stratum Permutation
+B.h <- 12	#Number of partitions
+n.h <- 10	#Sample Size
+
+# High subset:
+pts.high <- pts.daring[pts.daring$CEV == "High", ]
+# Get the Sites selected from the Master Sample:
+smp.high <- MasterSample(pts.high, B = B.h, P1 = P1.h, P2 = P2.h, n = n.h)
+
+#Make sure we track that this is the high stratum for later.
+smp.high$Stratum <- "High"
+```
+
+## Medium CE:
+Now do it for Medium CE.
+
+``{r include = TRUE, eval = FALSE}
+P1.m <- c(0,1)		#Stratum Permuitation
+P2.m <-  c(2,1,0)	#Stratum Permutation
+B.m <- 12	#Number of partitions
+n.m <- 10	#Sample Size
+
+# High subset:
+pts.med <- pts.daring[pts.daring$CEV == "Medium", ]
+# Get the Sites selected from the Master Sample:
+smp.med <- MasterSample(pts.med, B = B.m, P1 = P1.m, P2 = P2.m, n = n.m)
+
+#Make sure we track that this is the high stratum for later.
+smp.med$Stratum <- "Medium"
+
+```
+
+## Low CE:
+Now do it for Low CE.
+
+``{r include = TRUE, eval = FALSE}
+P1.l <- c(0,1)		#Stratum Permuitation
+P2.l <-  c(0, 1, 2)	#Stratum Permutation
+B.l <- 12	#Number of partitions
+n.l <- 10	#Sample Size
+
+# High subset:
+pts.low <- pts.daring[pts.daring$CEV == "Low", ]
+# Get the Sites selected from the Master Sample:
+smp.low <- MasterSample(pts.low, B = B.l, P1 = P1.l, P2 = P2.l, n = n.l)
+
+#Make sure we track that this is the high stratum for later.
+smp.low$Stratum <- "Low"
+
+```
+
+# Visualization of the Sample:
+We can make a nice looking plot in leaflet to visualize what we've done. Then we'll export the sample as a shape file or a csv.
+
+```{r include = TRUE, eval = FALSE}
+
+pilot.pts <- rbind(smp.low, smp.med, smp.high)
+pts.wgs <- spTransform(pilot.pts, CRS("+proj=longlat"))
+pts.wgs.df <- data.frame(pts.wgs)
+cols <- colorFactor(c("red", "orange", "green"), levels = c("High", "Medium", "Low"))
+pts.wgs.df$col <- factor(pts.wgs.df$Stratum, levels =  c("High", "Medium", "Low"), labels = c("red", "orange", "green"))
+
+# Visualization as an HTML map:
+leaflet(pts.wgs.df) %>% addProviderTiles(providers$Esri.WorldImagery) %>%  
+			addAwesomeMarkers(lng =~ coords.x1, lat =~ coords.x2, 
+				icon=awesomeIcons(
+				  icon = 'ios-close',
+				  iconColor = 'black',
+				  library = 'ion',
+				  markerColor =~ col), popup = ~paste0("Stratum: ", Stratum, "SampleIndex: ", 
+						SampleIndex, "<br> HIPOrder: ", HIPOrder, 
+						"<br> Master Sample Index: ", MasterSampleIndex))
+
+#Data export:
+results.pts <- data.frame(pilot.pts)
+write.csv(results.pts, "PilotPoints.csv", rownames = FALSE)
+
+# Or as a shape file for GIS:
+writeOGR(pilot.pts, "ExampleOutput", "PilotPoints", "ESRI Shapefile")
+```

@@ -1,0 +1,29 @@
+Package: NWTMasterSample
+Type: Package
+Title: Northwest Territories Master Sample
+Version: 1.0
+Date: 2020-03-23
+Author: Paul van Dam-Bates
+Maintainer: Paul van Dam-Bates <pvandambates@ecofishresearch.com>
+Description: Implementation of a Halton Iterative Partitioning Master Sample for Northwest Territories freshwater monitoring.
+License: GPL (>= 2)
+Imports:
+    dplyr,
+    sp,
+	data.table,
+	ggplot2,
+	rgeos,
+	velox,
+	raster,
+	leaflet,
+	rgdal,
+    Rcpp,
+	methods
+LinkingTo: Rcpp
+RoxygenNote: 7.1.0.9000
+LazyData: true
+NeedsCompilation: yes
+Archs: i386, x64
+Encoding: UTF-8
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr

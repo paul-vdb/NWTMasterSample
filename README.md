@@ -32,7 +32,7 @@ of points randomly based on the MSI. We have implemented this for a New Zealand 
 particular version. The code is included but the user will require a bit more work to do this which we currently don't provide documentation for.
 More to come but feel free to contact me if you want some base code that will do this.
 
-To adapt this version of the R pacakge for another Master Sample, it only needs the random seeds and bounding box shifted as well
+To adapt this version of the R package for another Master Sample, it only needs the random seeds and bounding box shifted as well
 as the base projection hard coded in the functions changed.
 
 In the background we also provide the code to create the Halton Iterative Partitioning boxes. All this will be documentated in the future

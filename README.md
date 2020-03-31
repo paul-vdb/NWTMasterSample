@@ -38,6 +38,21 @@ as the base projection hard coded in the functions changed.
 In the background we also provide the code to create the Halton Iterative Partitioning boxes. All this will be documentated in the future
 as this package is generalized and grows.
 
+For now you can use the function below to create the HIP boxes.
+hip must be a data.table with columns X, Y, index = MasterSampleIndex.
+Easiest way to create it is to call getIndividualBoxIndices() first. With that output you can then call 
+getHIPBoxes().
+
+To check spatial balance use. Best to test this against multiple different partitions to see the impact on balance.
+getBalance()
+
+To sample a river in the style of the NZ FW Master Sample you can use:
+getPolyRast()
+
+This code essentially is driven by:
+getHipSample()
+You can pass any random seed, bounding box etc and return a HIP sample from this.
+
 Please see the attached vignettes for some example use with lakes in the Upper Coppermine River Basin.
 
 To install:

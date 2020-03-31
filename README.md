@@ -40,17 +40,26 @@ as this package is generalized and grows.
 
 For now you can use the function below to create the HIP boxes.
 hip must be a data.table with columns X, Y, index = MasterSampleIndex.
-Easiest way to create it is to call getIndividualBoxIndices() first. With that output you can then call 
-getHIPBoxes().
+Easiest way to create it is to first call 
 
-To check spatial balance use. Best to test this against multiple different partitions to see the impact on balance.
+getIndividualBoxIndices()
+
+With that output you can then call 
+
+getHIPBoxes()
+
+It's great to test your choice of B against multiple different partitions to see the impact on balance. Also feel free to check again GRTS etc. The following function returns balance for any set of points in the correct structure.
+
 getBalance()
 
 To sample a river in the style of the NZ FW Master Sample you can use:
+
 getPolyRast()
 
 This code essentially is driven by:
+
 getHipSample()
+
 You can pass any random seed, bounding box etc and return a HIP sample from this.
 
 Please see the attached vignettes for some example use with lakes in the Upper Coppermine River Basin.

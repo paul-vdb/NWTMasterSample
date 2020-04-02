@@ -13,12 +13,13 @@ Imports:
 	data.table,
 	ggplot2,
 	rgeos,
-	velox,
 	raster,
 	leaflet,
 	rgdal,
     Rcpp,
 	methods
+Suggests:
+	velox
 LinkingTo: Rcpp
 RoxygenNote: 7.1.0.9000
 LazyData: true

@@ -8,23 +8,24 @@ Maintainer: Paul van Dam-Bates <pvandambates@ecofishresearch.com>
 Description: Implementation of a Halton Iterative Partitioning Master Sample for Northwest Territories freshwater monitoring.
 License: GPL (>= 2)
 Imports:
-    dplyr,
-    sp,
+	dplyr,
+    	sp,
 	data.table,
 	ggplot2,
 	rgeos,
 	raster,
 	leaflet,
 	rgdal,
-    Rcpp,
+    	Rcpp,
 	methods
 Suggests:
-	velox
+	velox,
+	knitr, 
+	rmarkdown
 LinkingTo: Rcpp
 RoxygenNote: 7.1.0.9000
 LazyData: true
 NeedsCompilation: yes
 Archs: i386, x64
 Encoding: UTF-8
-Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
